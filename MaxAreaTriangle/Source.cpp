@@ -8,8 +8,8 @@
 */
 
 #include <iostream>
-
-void main()
+#include <math.h>
+int main()
 {
 	float side1 = 10, side2 = 7;
 	float semiperi = 0;
@@ -26,5 +26,6 @@ void main()
 			maxside = side;
 		}
 	}
-	std::cout <<"\n Max side : "<<maxside<<" Max Area: "<<maxarea <<std::endl;		
+	std::cout <<"\n Max side : "<<maxside<<" Max Area: "<<maxarea <<std::endl;	
+	return 0;	
 }
