@@ -82,10 +82,14 @@ void sort_Better(vector<int> &a1, vector<int> &a2) {
 	for(int idx = 0; idx < s2; idx++) cout << "	" << a2[idx];
 	cout << endl;
 }
-inline int getElemAtGap(int idx, size_t gap, size_t s1, size_t s2) {
-	if(idx + gap > s1) {
-		return a2[idx + gap - s1];
-	}
+
+inline int* getElemAtGap(int idx, size_t gap, vector<int> &a1, vector<int> &a2) {
+	size_t s1 = a1.size();
+	size_t s2 = a2.size();
+	if(idx + gap < s1)
+		return &a1[idx + gap];
+	else
+		return &a2[idx + gap - s1];
 }
 
 void sort_Optimal(vector<int> &a1, vector<int> &a2) {
@@ -107,16 +111,43 @@ void sort_Optimal(vector<int> &a1, vector<int> &a2) {
 
 		1	5 	9 	10 	15 	20	2 	3 	8 	13
 	*/
+	size_t s1 = a1.size();
+	size_t s2 = a2.size();
+	cout << endl << "before sorting" << endl;
+	for(int idx = 0; idx < s1; idx++) cout << "	" << a1[idx];
+	cout << endl;
+	for(int idx = 0; idx < s2; idx++) cout << "	" << a2[idx];	
+	size_t gap = ceil(s/2);
 
-	for(int i = 0; i < s; i++) {
+	auto swap = [](int* a, int* b) {
+		int tmp = *a; *a = *b; *b = tmp;
+	};
+
+	while(gap > 0) {
 		
+		for(int i = 0; i + gap < s ; i++) {
+			int *tmp1 = getElemAtGap(i, 0, a1, a2);
+			int *tmp2 = getElemAtGap(i, gap, a1, a2);
+			if(*tmp1 > *tmp2) {
+				swap(tmp1, tmp2);
+			}
+		}
+		if(gap == 1) break;
+
+		gap = ceil(gap * 1.0 / 2);
 	}
+
+	cout << endl << "after sorting" << endl;
+	for(int idx = 0; idx < s1; idx++) cout << "	" << a1[idx];
+	cout << endl;
+	for(int idx = 0; idx < s2; idx++) cout << "	" << a2[idx];
+	cout << endl;
 
 }
 
 int main () {
 	vector<int> a1 = {1,	5, 	9, 	10, 	15, 	20};
 	vector<int> a2 = {2, 	3, 	8, 	13};
-	sort_Better(a1, a2);
+	sort_Optimal(a1, a2);
 	return 0;
 }
