@@ -1,0 +1,5 @@
+*.out
+*.plist
+*.DS_Store
+*.o
+*.dSYM
