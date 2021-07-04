@@ -3,7 +3,7 @@
 using namespace std;
 
 void setMatrixZero(vector<vector<int>> &mat){
-    
+
 }
 
 int main() {
