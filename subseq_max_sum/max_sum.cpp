@@ -21,7 +21,7 @@ int getMaxSubsequenceSum (vector<int> &inList) {
 
 
 int main () {
-    int arr[] = {1, 2, 3 , -1, 7 , 8};
+    int arr[] = {2, 1, 5, 1, 3, 2};//{1, 2, 3 , -1, 7 , 8};
     vector<int> myInput;
     for(int idx = 0; idx < sizeof(arr); idx++) {
         myInput.push_back(arr[idx]);
