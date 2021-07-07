@@ -74,24 +74,50 @@ int getMaxProfit_TopDown(int weights[], int values[], int N, int W) {
     for(int i = 1; i < N + 1; i++) {
         for(int j = 1; j < W + 1; j++) {
             if(weights[i-1] <= j) {
-                T[i][j] = max(values[i-1] + T[i-1][j - weights[i-1]], T[i-1][j]);
+                int a = values[i-1] + T[i-1][j - weights[i-1]];
+                int b = T[i-1][j];
+                if(a > b) cout << " i = " << i << endl;
+                
+                T[i][j] = max(a, b);
             } else {
                 T[i][j] = T[i-1][j];
             }
         }
     }
 
-    return T[N][W];
+    for(int i = 0; i < N + 1; i++) {
+        cout << endl;
+        for(int j = 0; j < W + 1; j++)
+            cout <<"    " << T[i][j];
+    }
+    cout << endl;
 
+     // int curProf = T[N][W];
+     int curWt= W;
+     int row = N;
+    // Display the chosen objects
+    while ( curWt > 0 && row > 0)
+    {
+            if (T[row][curWt] > T[row-1][curWt])
+            {
+                    cout <<"  Item chosen   " <<  row;
+                    curWt -= weights[row-1];
+                    // curProf -= values[row];                    
+            }
+          row --;
+        
+    }
+     cout << endl;
+
+          return   T[N][W];
 }
-
 
 int main() {
     cout << "knapsack problem" << endl;
-    int weights[] = {10, 20, 30};
-    int values[] = {60, 100, 120};
-    int capacity = 50;
-    int size = 3;
+    int weights[] = {1, 6, 4,1, 2,3,6,1, 1};   //{10, 20, 30};
+    int values[] = {4, 2, 1,2, 2,1,2,1 ,1};    //{60, 100, 120};
+    int capacity = 7; //50;
+    int size = 9;
     int maxProfit = getMaxProfit_rec(weights, values, size, capacity);
     cout << "Max profit by getMaxProfit_rec = " << maxProfit << endl;
     maxProfit = getMaxProfit_Memoize(weights, values, size, capacity);
