@@ -25,8 +25,8 @@ int getMaxChange(int coins[], int N, int capacity) {
 
 int main() {
     cout << "Maximum coin change problem" << endl;
-    int coins[] = {1, 2, 3};
-    int N = 4;
+    int coins[] = {5, 2, 10, 1, 3};
+    int N = 10;
 
     int maxChange = getMaxChange(coins, sizeof(coins)/sizeof(int), N);
     cout << "max change = " << maxChange << endl;
