@@ -74,21 +74,11 @@ int getMaxProfit_BottomUp(int weights[], int values[], int N, int W) {
     for(int i = 1; i < N + 1; i++) {
         for(int j = 1; j < W + 1; j++) {
             if(weights[i-1] <= j) {
-                int a = values[i-1] + T[i-1][j - weights[i-1]];
-                int b = T[i-1][j];
-                if(a > b) cout << " i = " << i << endl;
-                
-                T[i][j] = max(a, b);
+                T[i][j] = max(values[i-1] + T[i-1][j - weights[i-1]], T[i-1][j]);
             } else {
                 T[i][j] = T[i-1][j];
             }
         }
-    }
-
-    for(int i = 0; i < N + 1; i++) {
-        cout << endl;
-        for(int j = 0; j < W + 1; j++)
-            cout <<"    " << T[i][j];
     }
     cout << endl;
 
@@ -122,8 +112,8 @@ int main() {
     cout << "Max profit by getMaxProfit_rec = " << maxProfit << endl;
     maxProfit = getMaxProfit_Memoize(weights, values, size, capacity);
     cout << "Max profit by getMaxProfit_Memoize = " << maxProfit << endl;
-    maxProfit = getMaxProfit_TopDown(weights, values, size, capacity);
-    cout << "Max profit by getMaxProfit_TopDown = " << maxProfit << endl;
+    maxProfit = getMaxProfit_BottomUp(weights, values, size, capacity);
+    cout << "Max profit by getMaxProfit_BottomUp = " << maxProfit << endl;
     
     return 0;
 }
