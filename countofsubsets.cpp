@@ -15,6 +15,8 @@ int getSubsetsMatchingSum(int arr[], int N, int sum) {
         for(int j = 1; j < sum + 1; j++) {
             if(arr[i-1] <= j) {
                 // 0-1: include/ exclude
+                // why are we adding up the two possibilities here? because we are counting
+                // subsets and we dont want to stop with one value alone.
                 T[i][j] = T[i-1][j - arr[i-1]] + T[i-1][j];
             } else {
                 T[i][j] = T[i-1][j];

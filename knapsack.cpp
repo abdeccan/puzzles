@@ -5,7 +5,7 @@ using namespace std;
 
 int getMaxProfit_rec(int weights[], int values[], int N, int capacity) {
     // this is the classic recursive approach and is the fundamental to the 
-    // other approaches like memo and top-down discussed below.
+    // other approaches like memoization and bottom up discussed below.
     // here we need to identify how to break down the problem into base condition
     // and then the choice diagram i.e. the different paths we could take. The paths
     // in this case are 0-1 i.e. pick and item or dont pick it.
@@ -57,7 +57,7 @@ int getMaxProfit_Memoize(int weights[], int values[], int N, int capacity) {
     }
 }
 
-int getMaxProfit_TopDown(int weights[], int values[], int N, int W) {
+int getMaxProfit_BottomUp(int weights[], int values[], int N, int W) {
     // here we will create a table 'T' of size [N + 1] * [W + 1] and fill it up
     // with answers to smaller, sub problems
     // the final answer to our question would then be available at T[N][W]
@@ -114,8 +114,8 @@ int getMaxProfit_TopDown(int weights[], int values[], int N, int W) {
 
 int main() {
     cout << "knapsack problem" << endl;
-    int weights[] = {1, 6, 4,1, 2,3,6,1, 1};   //{10, 20, 30};
-    int values[] = {4, 2, 1,2, 2,1,2,1 ,1};    //{60, 100, 120};
+    int weights[] = {1, 6, 4, 1, 2, 3, 6, 1, 1};   //{10, 20, 30};
+    int values[] =  {4, 2, 1, 2, 2, 1, 2, 1 ,1};    //{60, 100, 120};
     int capacity = 7; //50;
     int size = 9;
     int maxProfit = getMaxProfit_rec(weights, values, size, capacity);
