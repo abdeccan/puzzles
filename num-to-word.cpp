@@ -15,7 +15,18 @@ string numToWord(int num) {
     const vector<string> one_digits = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     const vector<string> two_digits = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     const vector<string> tens = {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "one hundred"};
+    const vector<string> one_to_twenty = {  "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                                            "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
     
+
+    if(num == 0) return "zero";
+
+    if(num > 0 && num < 10) return one_digits[num];
+
+    if(num > 10 && num < 20) return two_digits[num - 1];
+
+    if(num % 10 == 0 && num < 100) return tens[num - 1];
+
     int tmp = num;
 
     int bnPart = num / BN; 
@@ -38,24 +49,21 @@ string numToWord(int num) {
 
     int hdPart = num / HD;
     if(hdPart > 0) {
-        num = num % (hdPart * HD);  // remaining
+        num = num % (hdPart * HD);  // remaining = 23 out of xxx,123
         word.append(numToWord(hdPart)).append(" hundred ");
     }
 
-    int oneplace = num % 10;
-    if(oneplace > 0) {
-        num -= oneplace;
-        word.append(tens[num/10 - 1]).append(one_digits[oneplace]);
-    } else{
-        word.append(tens[num/10 - 1]);
+    if(num <= 20) {
+        // directly stick the string
+        return one_to_twenty[num];
     }
-    
-    
-    //word.append(numToWord(num));
-
-   //printf("Word is %s\n", word.c_str());
-
-    return word;
+    else if (num % 10 == 0) {
+        return tens[num - 1];
+    } else {
+        int onePart = num % 10;
+        int tenPart = num / 10;
+        return tens[tenPart - 1] + one_to_twenty[onePart];
+    }
 }
 
 int main () {
