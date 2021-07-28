@@ -15,8 +15,7 @@ string numToWord(int num) {
     const vector<string> one_digits = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     const vector<string> two_digits = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     const vector<string> tens = {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "one hundred"};
-    const vector<string> one_to_twenty = {  "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-                                            "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+    const vector<string> one_to_twenty = {  "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
     
 
     if(num == 0) return "zero";
@@ -69,7 +68,7 @@ string numToWord(int num) {
 int main () {
     cout << "Print the text form of a given number i.e. 123 should be printed as 'One hundred twenty three'" << endl;
 
-    int num = 100123;
+    int num = 123;
     string s = numToWord(num);
     cout << "Word is " << s << endl;
 
