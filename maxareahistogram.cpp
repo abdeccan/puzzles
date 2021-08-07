@@ -27,7 +27,7 @@ vector<int> getNSRIndexes(vector<int> in) {
         s.push(i);
     }
     for(auto &v : out){
-        if(v == -1) v = in.size();  // adjustment needed here
+        if(v == -1) v = in.size();  // adjustment needed here since we can go till end of array
     }
 
     // since we are traversing from right we need to reverse the out vector
