@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <list>
 #include <unordered_map>
 using namespace std;
 
 
-class LRUCache {
+class LRUCache_Old {
     private:
     
      /*class myComp {
@@ -35,7 +36,7 @@ public:
 
     }
     
-    LRUCache(int capacity) {
+    LRUCache_Old(int capacity) {
         _cap = capacity;
     }
     
@@ -98,6 +99,111 @@ public:
                 _usageCnt[key]++;
             else
                 _usageCnt[key] = 1;
+    }
+};
+
+class LRUCache {
+    private:
+        
+    int _cap;
+    int cnt = 0;
+    unordered_map<int, list<pair<int,int>>::iterator> _cache;
+    //unordered_map<int, int> _usageRecency;
+    //priority_queue<int, vector<int>, myComp> _q;
+    list<pair<int,int>> theList;
+    
+public:
+
+   
+    
+    LRUCache(int capacity) {
+        _cap = capacity;
+    }
+    
+    void printlist(string m, list<int> l) {
+        list<int>::iterator i = l.begin();
+        cout << endl << m << "  ";
+        while(i != l.end()) {
+            cout << "  " << *i << "  ";
+            i++;
+        }        
+    }
+    
+    int get(int key) {
+        if(_cache.find(key) != _cache.end()) {
+            // before returning increase the access count
+        //    _usageRecency[key] = ++cnt;
+
+        //    cout << "   Getting value key = " << key << " value = " << _cache[key] << " usage cnt = " <<   _usageRecency[key] << endl;
+            
+           // _q.push(key);
+          /*  list<int>::iterator it = useList.begin();
+            while(it != useList.end() && *it != key)
+                it++;*/
+           // printlist(string("get, before rearrange"), useList);
+    //        useList.remove(key);
+  //          useList.push_back(key);
+            theList.splice(theList.begin(), theList, _cache[key]);
+           // printlist(string("get, after rearrange"), useList);
+                
+            
+            return _cache[key]->second;
+        }
+        else
+            return -1;
+    }
+    
+    void put(int key, int value) {
+
+     //   cout << "   Put key " << key << " value = " << value << endl;
+        
+        if(_cache.find(key) != _cache.end()) {
+            // update operation
+            _cache[key]->second = value;
+      //      cout << "   Key exists, update operation" << endl;
+            theList.splice(theList.begin(), theList, _cache[key]);
+        } else {
+            // write operation
+            if(_cache.size() >= _cap) {
+               // cout << endl << "!!Cap reached, need to evict!!" << endl;
+              //  printlist(string("put, before evict"), useList);
+                // we need to evict LRU now
+                /*int keyToPop = _q.top();
+                _q.pop();
+                _cache.erase(keyToPop);*/
+                
+                //evict the least used
+                pair<int, int> lastnode = theList.back();
+                theList.pop_back();
+                _cache.erase(lastnode.first);
+
+                /*int minUsed = 2 * 1e5;
+                int minKey = 1e4;
+                for(unordered_map<int, int>::const_iterator it = _usageRecency.begin(); it != _usageRecency.end(); it++) {
+                    if(minUsed > it->second) {
+                        minUsed = it->second;
+                        minKey = it->first;
+                    }
+                } */
+           
+               // int minKey = useList.front();
+             //   cout << "   Evicting minKey = " << minKey << endl;
+               // useList.pop_front();
+               // printlist(string("put, after evict"), useList);
+               // _cache.erase(minKey);
+//                _usageRecency.erase(minKey);
+                
+            } else {
+                _cache[key] = value;
+            }
+            
+            theList.push_front({key, value});
+                _cache[key] = theList.begin();
+
+          //  cout << endl;
+        }
+
+     //   _usageRecency[key] = ++cnt;
     }
 };
 

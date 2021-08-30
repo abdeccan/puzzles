@@ -2,15 +2,14 @@
 //
 
 
-#include "stdafx.h"
 #include <queue>
 #include <map>
 #include <iostream>
-#include <timeapi.h>
+#include <chrono>
 using namespace std;
 
 /*
-Rate Limiter
+Rate Limiter using Sliding Window
 
 Problem Description:
 Imagine we are building an application that is used by many different customers. We want to avoid one customer being able to overload the system by sending too many requests, so we enforce a per-customer rate limit. The rate limit is defined as:
@@ -48,12 +47,19 @@ class CRateLimitImpl : public  RateLimiterBase {
 	int _interval;
 	int _capacity;
 
-	map<int, queue<long>> _reqMap;	// store customerId -- req coll
+	map<int, queue<long long>> _reqMap;	// store customerId -- req coll
 
 	// code to populate customers is out
 
 public:
-	CRateLimitImpl::CRateLimitImpl(int capacity, int interval) : _interval(interval), _capacity(capacity) {
+
+	inline long long timeGetTime() {
+		long long time = chrono::high_resolution_clock::now().time_since_epoch().count()/10000000;
+		// cout << "Time: " << time << endl;
+		return time;
+	}
+
+	CRateLimitImpl(int capacity, int interval) : _interval(interval), _capacity(capacity) {
 		//
 	}
 
@@ -62,30 +68,34 @@ public:
 		if (_reqMap.find(customerId) == _reqMap.end())	// this means cust is not in map yet
 		{
 			// insert the entry
-			queue<long> custTimestampQ;
+			queue<long long> custTimestampQ;
 			custTimestampQ.push(timeGetTime());
 			_reqMap[customerId] = custTimestampQ;
+			// cout << "returning true since reqMap empty" << endl;
 			return true;
 		}
 		else
 		{
 			// the customer has already made a request
-			queue<long> thisCustQ = _reqMap[customerId];
+			queue<long long> thisCustQ = _reqMap[customerId];
 			if (thisCustQ.empty()) {
 				thisCustQ.push(timeGetTime());
 				_reqMap[customerId] = thisCustQ;
+				// cout << "returning true since thisCustQ empty" << endl;
 				return true;
 			}
 			else {
 				// front --> [t1, t2..... tn] --> rear
-				queue<long> thisCustQ = _reqMap[customerId];
-				long now = timeGetTime();
+				long long now = timeGetTime();
 				while (!thisCustQ.empty() && thisCustQ.front() - now > _interval) {
+					// cout << "Triming the queue" << endl;
 					thisCustQ.pop();	// this will trim the queue
 				}
 
 				if (thisCustQ.size() < _capacity) {
-					thisCustQ.push(timeGetTime());
+					thisCustQ.push(now);
+					_reqMap[customerId] = thisCustQ;
+					// cout << "returning true since thisCustQ less than capacity, new capacity = " << thisCustQ.size() << endl;
 					return true;
 				}
 			}
@@ -99,7 +109,8 @@ public:
 
 int main()
 {
-
+	cout << "Rate Limiter using Sliding Window" << endl;
+	
 	CRateLimitImpl rImpl(5, 5000);	// 5000 ms and 5 req in that duration
 	vector<int> custIds = { 1, 2, 3, 4, 5, 6 };
 	for (int i = 0; i < 10; i++) {

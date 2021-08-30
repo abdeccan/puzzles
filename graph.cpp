@@ -78,8 +78,8 @@ bool isCyclic(vector<vector<int>> g, int N, int start, vector<bool> &visited) {
 
 int main() {
     cout << "Graph traversal using BFS and DFS" << endl;
-    vector<vector<int>> g = {{1, 4}, {2, 3, 4}, {3}, {4}, {0,1}};
-    const int N = 5;
+    vector<vector<int>> g = {{2, 4, 5}, {2,3,4}, {0,1,5,6}, {1,6}, {0,1}, {0,2}, {2,3}};//{{1, 4}, {2, 3, 4}, {3}, {4}, {0,1}};
+    const int N = 7;
     vector<bool> visited(N, false);
     int start = 0;
     cout << "BFS: ";
