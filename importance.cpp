@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
@@ -14,21 +14,27 @@ class Employee {
     }
 };
 
-int getEmpImp(vector<Employee*> employees, map<int, vector<int>> subs, int id) {
-    int tmp = subs[id];
-    for(auto s : subs[id]) {
-        tmp += getEmpImp(employees, subs, s);
-    }
-    return tmp;
-}
-
-int getImportance(vector<Employee*> employees, int id) {
-    map<int, vector<int>> subs;
-    for(auto e : employees)
-        subs[e->id] = e->subordinates;
+unordered_map<int, Employee *> empMap;
     
-    return getEmpImp(employees, subs, id);
-}
+    int getEmpImp(int id) {
+        int tmp = empMap[id]->importance;
+        for(auto e_id : empMap[id]->subordinates)
+            tmp += getEmpImp(e_id);
+        
+        return tmp;
+    }
+    
+    int getImportance(vector<Employee*> employees, int id) {
+        for(auto e : employees)
+            empMap[e->id] = e;
+        
+        int tmp = empMap[id]->importance;
+        
+        for(auto e_id : empMap[id]->subordinates)
+            tmp += getEmpImp(e_id);
+        
+        return tmp;
+    }
 
 int main() {
     cout << "Print employee org importance" << endl;
