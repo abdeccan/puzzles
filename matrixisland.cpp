@@ -55,10 +55,10 @@ using namespace std;
                         checkNeighbor(p.first, p.second + 1, grid, visited, q);
                         checkNeighbor(p.first, p.second - 1, grid, visited, q);
                         
-                        checkNeighbor(p.first + 1, p.second + 1, grid, visited, q);
-                        checkNeighbor(p.first + 1, p.second - 1, grid, visited, q);
-                        checkNeighbor(p.first - 1, p.second + 1, grid, visited, q);
-                        checkNeighbor(p.first - 1, p.second - 1, grid, visited, q);
+                        // checkNeighbor(p.first + 1, p.second + 1, grid, visited, q);
+                        // checkNeighbor(p.first + 1, p.second - 1, grid, visited, q);
+                        // checkNeighbor(p.first - 1, p.second + 1, grid, visited, q);
+                        // checkNeighbor(p.first - 1, p.second - 1, grid, visited, q);
 
                         
                     }
@@ -130,7 +130,7 @@ using namespace std;
 int main() {
     cout << "Find the number of islands in a matrix" << endl;
     vector<vector<int>> grid = {    { 0, 0, 1, 1, 0 }, 
-                                    { 1, 0, 1, 1, 0 }, 
+                                    { 1, 1, 1, 1, 0 }, 
                                     { 0, 0, 0, 0, 0 }, 
                                     { 0, 0, 0, 0, 1 } };
     int numIslands = findNumIslands(grid);

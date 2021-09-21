@@ -14,7 +14,7 @@ int main () {
     }
     cout << "Kth smallest is " << maxHeap.top() << endl;
 
-    priority_queue<int, vector<int>, greater<int> > minHeap;
+    priority_queue<int, vector<int>, greater<int>> minHeap;
     for(auto v : arr) {
         minHeap.push(v);
         if(minHeap.size() > K) minHeap.pop();

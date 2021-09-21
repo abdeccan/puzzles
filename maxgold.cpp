@@ -9,7 +9,7 @@ int dfs(vector<vector<int>> &grid, int i, int j, vector<vector<bool>> &visited) 
         if(i > r - 1 || i < 0 || j < 0 || j > c - 1 || visited[i][j] || grid[i][j] == 0) return 0;
         
         // we can move 1 step up/ down/ right/ left        
-        vector<pair<int, int>> directions = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        vector<pair<int, int>> directions = {{-1, 1}, {0, 1}, {1, 1}};
         
         visited[i][j] = true;
         
@@ -26,23 +26,28 @@ int dfs(vector<vector<int>> &grid, int i, int j, vector<vector<bool>> &visited) 
     int getMaximumGold(vector<vector<int>>& grid) {
         int r = grid.size();
         int c = grid[0].size();
-        if(r == 0 && c == 0) return 0;
-        
-        vector<vector<bool>> visited(r, vector<bool>(c));
-        
-        int ans = 0;
+        if(r == 0 || c == 0) return 0;
+
+
+        int maxG = 0;
+
         for(int i = 0; i < r; i++) {
-            for(int j = 0;j < c; j++) {
-                // we do DFS to gather all gold in connected paths
-                ans = max(ans, dfs(grid, i, j, visited));
+            for(int j = 0; j < c; j++) {
+                // do DFS
+                vector<vector<bool>> visited(r, vector<bool>(c));
+
+                maxG = max(maxG, dfs(grid, i, j, visited));
             }
         }
-        
-        return ans;
+
+        return maxG;
     }
 
-    int main() {
+    /*
+        ALT solution without using DFS: https://www.geeksforgeeks.org/gold-mine-problem/
+    */
 
+    int main() {
         vector<vector<int>> grid = {{0,6,0},{5,8,7},{0,9,0}};
         int maxG = getMaximumGold(grid);
         cout << maxG << endl;
