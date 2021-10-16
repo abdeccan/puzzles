@@ -71,7 +71,7 @@ int main() {
     // such that each row has exactly one queen, each col has only one queen
     // no two queens can attack each other
 
-    int N = 4;  // 4 * 4 chess board
+    int N = 6;  // 4 * 4 chess board
     int startCol = 0;
     vector<string> board;   // one such board to start with
     for(int i = 0; i < N; i++) {
@@ -83,10 +83,11 @@ int main() {
     solve(N, startCol, board, boards);
     for(auto b : boards){
         for(auto r : b)
-            cout << r << endl;
+            cout << r << "  " << endl;
 
         cout << endl;
     }
+    cout << "Total number of ways = " << boards.size() << endl;
     cout << endl;
     return 0;
 }

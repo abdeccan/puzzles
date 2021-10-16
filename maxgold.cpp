@@ -6,20 +6,21 @@ int dfs(vector<vector<int>> &grid, int i, int j, vector<vector<bool>> &visited) 
         int r = grid.size();
         int c = grid[0].size();
         
-        if(i > r - 1 || i < 0 || j < 0 || j > c - 1 || visited[i][j] || grid[i][j] == 0) return 0;
+        if(i == c || i < 0 || j < 0 || j == c || visited[i][j] /*|| grid[i][j] == 0*/) return 0;
         
-        // we can move 1 step up/ down/ right/ left        
-        vector<pair<int, int>> directions = {{-1, 1}, {0, 1}, {1, 1}};
+        // we can move 1 step right/ right diagonal up/ right diagonal down        
+        //vector<pair<int, int>> directions = {{-1, 1}, {0, 1}, {1, 1}};
+        vector<pair<int, int>> directions = {{0, 1}, {-1, 1}, {1, 1}};
         
         visited[i][j] = true;
         
         int gold = 0;
         int sum = grid[i][j];
-        
+        cout << sum << " --> [" << i << ", " << j << "] --> " << endl;
         for(pair<int, int> dir : directions) {
             gold = max(gold, dfs(grid, i + dir.first, j + dir.second, visited));
         }
-        
+        cout << gold + sum << endl;
         return gold + sum;
     }
     
@@ -28,14 +29,13 @@ int dfs(vector<vector<int>> &grid, int i, int j, vector<vector<bool>> &visited) 
         int c = grid[0].size();
         if(r == 0 || c == 0) return 0;
 
-
         int maxG = 0;
+
+        vector<vector<bool>> visited(r, vector<bool>(c));
 
         for(int i = 0; i < r; i++) {
             for(int j = 0; j < c; j++) {
                 // do DFS
-                vector<vector<bool>> visited(r, vector<bool>(c));
-
                 maxG = max(maxG, dfs(grid, i, j, visited));
             }
         }
