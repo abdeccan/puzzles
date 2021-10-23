@@ -46,7 +46,7 @@ bool isSafe(int row, int col, int N, vector<string> board) {
 void solve(int N, int col, vector<string> board, vector<vector<string>> &boards) {
     // base condition
     if(col == N) {
-        // have we reached the last col?
+        // have we crossed the last col?
         boards.push_back(board);
         return;
     }
